@@ -3,7 +3,9 @@
 脚本本身写的比较匆忙,有许多可以优化的地方,lua只看了一个星期,所以没有写成一个文件,用了lua调用shell的方式 lua本身也可以写function函数,因为个人习惯shell用的比较多
 关于白名单 其实可以把数据存储到redis中来做校验,redis特有的数据结构查询速度一定是比遍历数组之类的快一点.
 ```
+
 ##token.lua 释义
+```bash
 -- 获取用户请求头中含有Authorization认证的token信息
 local token = ngx.req.get_headers()["Authorization"]
 -- 将token转化为字符串 否则传递参数会有问题
@@ -23,9 +25,10 @@ if num ~= 200 then
 end
 -- 关闭io.popen的方式
 t:close()
-
+```
 
 ##bash1.sh
+```bash
 #!/bin/bash
 # 将获取到的token追加到log.txt里 方便自己调试 可注释
 echo -e $(date "+%Y-%m-%d %H:%M:%S") "\033[32m ==========> \033[0m" "获取到的加密token有效字段为:" $2 >>name.log
@@ -45,7 +48,7 @@ else
     fi
 fi
 
-
+```
 
 ##name.txt
 就是一个用户白名单
