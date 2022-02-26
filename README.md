@@ -1,7 +1,24 @@
 # nginx-lua
 ```bash
-脚本本身写的比较匆忙,有许多可以优化的地方,lua只看了一个星期,所以没有写成一个文件,用了lua调用shell的方式 lua本身也可以写function函数,因为个人习惯shell用的比较多
+脚本本身写的比较匆忙,有许多可以优化的地方,lua只看了一个星期,
+所以没有写成一个文件,用了lua调用shell的方式 lua本身也可以写function函数,因为个人习惯shell用的比较多
 关于白名单 其实可以把数据存储到redis中来做校验,redis特有的数据结构查询速度一定是比遍历数组之类的快一点.
+将三个脚本放在nginx的路径下 
+nginx配置文件 指定脚本位置
+vim  /usr/local/nginx/conf/nginx.conf
+# 放在某个server下
+location ^~ / {
+
+            access_by_lua_file  /usr/local/nginx/lua/token2.lua;
+			proxy_set_header    Host               $host;
+            proxy_set_header    X-Real-IP          $remote_addr;
+            proxy_set_header    X-Forwarded-For    $proxy_add_x_forwarded_for;
+            proxy_set_header    X-Forwarded-Host   $host;
+            proxy_set_header    X-Forwarded-Server $host;
+            proxy_set_header    X-Forwarded-Port   $server_port;
+            proxy_set_header    X-Forwarded-Proto  $scheme;
+            proxy_pass          http://xxxx:port;
+}
 ```
 
 ##token.lua 释义
